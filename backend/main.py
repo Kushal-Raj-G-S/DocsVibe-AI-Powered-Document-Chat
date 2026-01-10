@@ -84,12 +84,11 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "http://localhost:3001",
-        "http://localhost:3002",
         "https://docsvibe.vercel.app",
         "https://www.docsvibe.app",
         "https://docsvibe.app",
-        "https://api.docsvibe.app"
+        "https://api.docsvibe.app",
+        "https://docs-vibe-6giqc.ondigitalocean.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],

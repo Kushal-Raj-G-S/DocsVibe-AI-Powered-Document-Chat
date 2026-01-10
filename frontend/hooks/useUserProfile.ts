@@ -14,10 +14,15 @@ interface UserProfile {
   display_name?: string
 }
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
+
+if (!API_BASE_URL) {
+  throw new Error('NEXT_PUBLIC_API_BASE_URL must be set')
+}
+
 export function useUserProfile(email: string | undefined) {
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000'
 
   useEffect(() => {
     if (!email) {
