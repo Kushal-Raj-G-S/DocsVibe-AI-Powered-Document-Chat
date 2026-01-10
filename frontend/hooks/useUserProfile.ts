@@ -17,7 +17,10 @@ interface UserProfile {
 export function useUserProfile(email: string | undefined) {
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000'
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 
+    (typeof window !== 'undefined' && window.location.hostname !== 'localhost' 
+      ? 'https://docs-vibe-6giqc.ondigitalocean.app' 
+      : 'http://localhost:8000')
 
   useEffect(() => {
     if (!email) {

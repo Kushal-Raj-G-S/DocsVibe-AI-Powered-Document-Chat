@@ -5,7 +5,10 @@
 
 import { ChatHistoryResponse, SendMessageRequest, SendMessageResponse } from '@/types/chat'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 
+  (typeof window !== 'undefined' && window.location.hostname !== 'localhost' 
+    ? 'https://docs-vibe-6giqc.ondigitalocean.app' 
+    : 'http://localhost:8000')
 
 /**
  * Fetch all conversations from backend
