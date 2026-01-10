@@ -7,9 +7,18 @@ Implements 512-token chunking with overlap for better context retrieval
 import os
 import logging
 from typing import List, Dict, Any, Optional
-import chromadb
-from chromadb.config import Settings
-from chromadb.utils import embedding_functions
+
+# Make chromadb optional for production deployments
+try:
+    import chromadb
+    from chromadb.config import Settings
+    from chromadb.utils import embedding_functions
+    CHROMADB_AVAILABLE = True
+except ImportError:
+    CHROMADB_AVAILABLE = False
+    logger = logging.getLogger(__name__)
+    logger.warning("ChromaDB not available - vector search disabled")
+
 import tiktoken
 
 logger = logging.getLogger(__name__)
@@ -27,6 +36,13 @@ class VectorStore:
         """
         Initialize ChromaDB with sentence-transformers embeddings
         """
+        if not CHROMADB_AVAILABLE:
+            logger.warning("ChromaDB not installed - vector store disabled")
+            self.client = None
+            self.embedding_function = None
+            self.collection = None
+            return
+            
         self.persist_directory = persist_directory
         
         try:
@@ -124,6 +140,10 @@ class VectorStore:
         Returns:
             Number of chunks added
         """
+        if not CHROMADB_AVAILABLE or self.client is None:
+            logger.warning("Vector store disabled - skipping document indexing")
+            return 0
+            
         try:
             # Create chunks
             chunks = self.chunk_text(text_content)
