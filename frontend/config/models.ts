@@ -224,5 +224,5 @@ export const getDefaultModel = (): AIModel => {
  * Get all unique categories
  */
 export const getAllCategories = (): string[] => {
-  return Array.from(new Set(AVAILABLE_MODELS.map(model => model.category)))
+  return Array.from(new Set(AVAILABLE_MODELS.map(model => model.category).filter((cat): cat is string => cat !== undefined)))
 }
