@@ -88,7 +88,8 @@ app.add_middleware(
         "http://localhost:3002",
         "https://docsvibe.vercel.app",
         "https://www.docsvibe.app",
-        "https://docsvibe.app"
+        "https://docsvibe.app",
+        "https://api.docsvibe.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
