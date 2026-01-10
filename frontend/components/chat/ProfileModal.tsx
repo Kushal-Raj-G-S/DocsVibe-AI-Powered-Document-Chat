@@ -54,7 +54,7 @@ export function ProfileModal({ isOpen, onClose, user, onSignOut }: ProfileModalP
 
   const loadPreferences = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/preferences/${user?.email}`)
+      const response = await fetch(`${API_BASE_URL}/api/preferences/${user?.email}`)
       if (response.ok) {
         const data = await response.json()
         setNotifications(data.notifications_enabled)
@@ -72,7 +72,7 @@ export function ProfileModal({ isOpen, onClose, user, onSignOut }: ProfileModalP
     
     setIsSaving(true)
     try {
-      const response = await fetch('http://localhost:8000/api/preferences/', {
+      const response = await fetch(`${API_BASE_URL}/api/preferences/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -110,7 +110,7 @@ export function ProfileModal({ isOpen, onClose, user, onSignOut }: ProfileModalP
     
     setIsEditing(false)
     try {
-      const response = await fetch('http://localhost:8000/api/users/display-name', {
+      const response = await fetch(`${API_BASE_URL}/api/users/display-name`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -155,7 +155,7 @@ export function ProfileModal({ isOpen, onClose, user, onSignOut }: ProfileModalP
       formData.append('file', file)
       formData.append('email', user.email)
 
-      const response = await fetch('http://localhost:8000/api/users/upload-avatar', {
+      const response = await fetch(`${API_BASE_URL}/api/users/upload-avatar`, {
         method: 'POST',
         body: formData,
       })
@@ -188,7 +188,7 @@ export function ProfileModal({ isOpen, onClose, user, onSignOut }: ProfileModalP
 
     setIsUploadingAvatar(true)
     try {
-      const response = await fetch('http://localhost:8000/api/users/remove-avatar', {
+      const response = await fetch(`${API_BASE_URL}/api/users/remove-avatar`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: user.email }),
