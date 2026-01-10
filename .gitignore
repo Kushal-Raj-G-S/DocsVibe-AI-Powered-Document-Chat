@@ -1,0 +1,109 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Environment Variables (CRITICAL - NEVER COMMIT)
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env.local
+.env.production
+.env.development
+
+# Logs
+*.log
+backend.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Database (local development)
+*.db
+*.sqlite
+*.sqlite3
+chroma.sqlite3
+backend/chroma_db/
+chroma_db/
+
+# Uploads (local development only)
+backend/database/uploads/
+uploads/
+temp/
+*.pdf
+*.docx
+*.pptx
+!docs/*.pdf
+
+# IDE
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+.fleet/
+
+# OS
+.DS_Store
+Thumbs.db
+*.bak
+desktop.ini
+
+# Node.js / Frontend
+node_modules/
+.next/
+out/
+.vercel/
+.turbo/
+dist/
+build/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+coverage/
+.nyc_output/
+
+# Temporary files
+*.tmp
+*.temp
+test_*.txt
+temp_*
+
+# Migration scripts (keep tracked ones)
+backend/migrate_*.py
+backend/test_*.py
+backend/create_*.py
+backend/setup_*.py
+
+# Documentation (KEEP these)
+!DEPLOYMENT.md
+!FRONTEND_INTEGRATION.md
+!PRODUCTION_READY.md
+!README.md
+!LICENSE
+
+# Package locks (choose one strategy)
+# Option 1: Keep lock files (recommended for production)
+!package-lock.json
+!pnpm-lock.yaml
+!yarn.lock
+
+# Cache
+.cache/
+*.cache
+.parcel-cache/
