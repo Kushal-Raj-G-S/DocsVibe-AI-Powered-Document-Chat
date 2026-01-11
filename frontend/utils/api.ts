@@ -4,10 +4,13 @@
  */
 
 import { ChatHistoryResponse, SendMessageRequest, SendMessageResponse } from '@/types/chat'
+import { BUILD_TIMESTAMP } from '@/lib/build-info'
 
 // Centralized API Base URL from environment variable
 // NUCLEAR OPTION: Read at runtime from window to bypass build-time caching
 let API_BASE_URL: string
+
+console.log('🕐 Build timestamp:', BUILD_TIMESTAMP)
 
 if (typeof window !== 'undefined') {
   // Client-side: Force runtime environment variable reading
