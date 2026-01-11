@@ -20,6 +20,11 @@ if (!API_BASE_URL) {
   throw new Error('NEXT_PUBLIC_API_BASE_URL must be set')
 }
 
+// SECURITY: Block insecure URLs
+if (API_BASE_URL.startsWith('http://') || API_BASE_URL.includes('www.api')) {
+  throw new Error('🚨 Insecure or incorrect API URL detected: ' + API_BASE_URL)
+}
+
 export function useUserProfile(email: string | undefined) {
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)

@@ -45,6 +45,11 @@ export function ProfileModal({ isOpen, onClose, user, onSignOut }: ProfileModalP
   if (!API_BASE_URL) {
     throw new Error('NEXT_PUBLIC_API_BASE_URL must be set')
   }
+  
+  // SECURITY: Block insecure URLs
+  if (API_BASE_URL.startsWith('http://') || API_BASE_URL.includes('www.api')) {
+    throw new Error('🚨 Insecure or incorrect API URL detected: ' + API_BASE_URL)
+  }
 
   // Update avatar when user prop changes
   useEffect(() => {

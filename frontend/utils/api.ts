@@ -18,6 +18,22 @@ if (!API_BASE_URL) {
   )
 }
 
+// SECURITY: Block insecure HTTP URLs in production
+if (API_BASE_URL.startsWith('http://')) {
+  throw new Error(
+    '🚨 INSECURE API URL DETECTED: ' + API_BASE_URL + '\n' +
+    'Production must use HTTPS. Update NEXT_PUBLIC_API_BASE_URL to https://api.docsvibe.app'
+  )
+}
+
+// SECURITY: Block incorrect www subdomain
+if (API_BASE_URL.includes('www.api')) {
+  throw new Error(
+    '🚨 INCORRECT API URL: ' + API_BASE_URL + '\n' +
+    'Remove "www" from the URL. Correct URL: https://api.docsvibe.app'
+  )
+}
+
 /**
  * Generic API fetch wrapper with error handling
  */
