@@ -40,15 +40,19 @@ export function ProfileModal({ isOpen, onClose, user, onSignOut }: ProfileModalP
   const [responseStyle, setResponseStyle] = useState('balanced')
   const [isSaving, setIsSaving] = useState(false)
   
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
+  let API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
   
   if (!API_BASE_URL) {
     throw new Error('NEXT_PUBLIC_API_BASE_URL must be set')
   }
   
-  // SECURITY: Block insecure URLs
-  if (API_BASE_URL.startsWith('http://') || API_BASE_URL.includes('www.api')) {
-    throw new Error('🚨 Insecure or incorrect API URL detected: ' + API_BASE_URL)
+  // CRITICAL FIX: Force HTTPS
+  if (API_BASE_URL.startsWith('http://')) {
+    API_BASE_URL = API_BASE_URL.replace('http://', 'https://')
+  }
+  
+  if (API_BASE_URL.includes('www.api')) {
+    throw new Error('🚨 Incorrect API URL: Remove www')
   }
 
   // Update avatar when user prop changes

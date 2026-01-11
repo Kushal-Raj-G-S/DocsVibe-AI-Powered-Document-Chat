@@ -7,7 +7,7 @@ import { ChatHistoryResponse, SendMessageRequest, SendMessageResponse } from '@/
 
 // Centralized API Base URL from environment variable
 // This MUST be set in production environment variables
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
+let API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 // Validate that API_BASE_URL is set
 if (!API_BASE_URL) {
@@ -18,12 +18,10 @@ if (!API_BASE_URL) {
   )
 }
 
-// SECURITY: Block insecure HTTP URLs in production
+// CRITICAL FIX: Force HTTPS if the protocol is missing or wrong
 if (API_BASE_URL.startsWith('http://')) {
-  throw new Error(
-    '🚨 INSECURE API URL DETECTED: ' + API_BASE_URL + '\n' +
-    'Production must use HTTPS. Update NEXT_PUBLIC_API_BASE_URL to https://api.docsvibe.app'
-  )
+  console.warn('⚠️ Converting insecure HTTP to HTTPS:', API_BASE_URL)
+  API_BASE_URL = API_BASE_URL.replace('http://', 'https://')
 }
 
 // SECURITY: Block incorrect www subdomain
@@ -37,6 +35,7 @@ if (API_BASE_URL.includes('www.api')) {
 // DEBUG: Log the API URL in production to verify it's correct
 if (typeof window !== 'undefined') {
   console.log('🔗 API_BASE_URL:', API_BASE_URL)
+  console.log('🌍 Current origin:', window.location.origin)
 }
 
 /**
