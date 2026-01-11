@@ -51,7 +51,12 @@ if (typeof window !== 'undefined') {
  * Generic API fetch wrapper with error handling
  */
 async function apiFetch(endpoint: string, options?: RequestInit): Promise<any> {
-  const url = `${API_BASE_URL}${endpoint}`
+  // CRITICAL: Force HTTPS at fetch time to ensure no HTTP leaks
+  let url = `${API_BASE_URL}${endpoint}`
+  if (url.startsWith('http://')) {
+    console.warn('🚨 FORCING HTTP→HTTPS at fetch time:', url)
+    url = url.replace('http://', 'https://')
+  }
   
   try {
     const response = await fetch(url, {
