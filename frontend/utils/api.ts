@@ -34,6 +34,11 @@ if (API_BASE_URL.includes('www.api')) {
   )
 }
 
+// DEBUG: Log the API URL in production to verify it's correct
+if (typeof window !== 'undefined') {
+  console.log('🔗 API_BASE_URL:', API_BASE_URL)
+}
+
 /**
  * Generic API fetch wrapper with error handling
  */
