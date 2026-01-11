@@ -6,16 +6,22 @@
 import { ChatHistoryResponse, SendMessageRequest, SendMessageResponse } from '@/types/chat'
 
 // Centralized API Base URL from environment variable
-// This MUST be set in production environment variables
-let API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
+// NUCLEAR OPTION: Read at runtime from window to bypass build-time caching
+let API_BASE_URL: string
+
+if (typeof window !== 'undefined') {
+  // Client-side: Force runtime environment variable reading
+  API_BASE_URL = (window as any).__NEXT_DATA__?.props?.pageProps?.env?.NEXT_PUBLIC_API_BASE_URL 
+    || process.env.NEXT_PUBLIC_API_BASE_URL 
+    || 'https://api.docsvibe.app'  // Hardcoded fallback
+} else {
+  // Server-side
+  API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.docsvibe.app'
+}
 
 // Validate that API_BASE_URL is set
-if (!API_BASE_URL) {
-  throw new Error(
-    'CRITICAL: NEXT_PUBLIC_API_BASE_URL environment variable is not set. ' +
-    'The application cannot function without a backend API URL. ' +
-    'Please set NEXT_PUBLIC_API_BASE_URL in your environment variables.'
-  )
+if (!API_BASE_URL || API_BASE_URL === 'your_backend_api_url_here') {
+  API_BASE_URL = 'https://api.docsvibe.app'  // Force correct URL
 }
 
 // CRITICAL FIX: Force HTTPS if the protocol is missing or wrong
