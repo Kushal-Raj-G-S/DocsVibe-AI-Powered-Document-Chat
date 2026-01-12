@@ -25,10 +25,14 @@
 ```
 Frontend (Next.js)    →    Backend (FastAPI)    →    Storage & Data
 ─────────────────          ──────────────────         ─────────────
-Vercel Free                Render/Railway Free        Cloudflare R2 (10GB)
-                                                      Neon DB (3GB)
-                                                      Supabase (512MB)
+Vercel/DigitalOcean        Heroku Basic $7           Cloudflare R2 (10GB)
+docsvibe.app               api.docsvibe.app          Neon DB (3GB)
+                                                     Supabase (512MB)
 ```
+
+### Deployment Branches
+- **`main`**: Full project (frontend + backend) for development
+- **`heroku-backend`**: Backend only for Heroku deployment
 
 ### Database Separation
 - **Neon PostgreSQL (3GB)**: Conversations & message history (high volume)
