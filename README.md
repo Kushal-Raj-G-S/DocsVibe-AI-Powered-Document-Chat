@@ -384,5 +384,21 @@ MIT License - see [LICENSE](LICENSE) file for details
 Give a ⭐️ if this project helped you!
 
 ---
+## ☕ Support the Developer
+
+If you love DocsVibe and find it useful in your academic journey, consider supporting its development!
+
+[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://buymeacoffee.com/kushal.raj.gs)
+
+Your support helps me:
+- 🚀 Continue developing new features
+- 🐛 Fix bugs and improve performance
+- 📚 Keep it 100% free for students forever
+- 🤖 Add more AI models and capabilities
+- 🌍 Scale infrastructure for more users
+
+Every coffee makes a difference! ☕💻
+
+
 
 **Made with ❤️ for students by students**
