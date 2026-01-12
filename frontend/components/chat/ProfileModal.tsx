@@ -40,16 +40,7 @@ export function ProfileModal({ isOpen, onClose, user, onSignOut }: ProfileModalP
   const [responseStyle, setResponseStyle] = useState('balanced')
   const [isSaving, setIsSaving] = useState(false)
   
-  let API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
-  
-  if (!API_BASE_URL) {
-    throw new Error('NEXT_PUBLIC_API_BASE_URL must be set')
-  }
-  
-  // CRITICAL FIX: Force HTTPS
-  if (API_BASE_URL.startsWith('http://')) {
-    API_BASE_URL = API_BASE_URL.replace('http://', 'https://')
-  }
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.docsvibe.app'
   
   if (API_BASE_URL.includes('www.api')) {
     throw new Error('🚨 Incorrect API URL: Remove www')
