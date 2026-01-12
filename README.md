@@ -1,57 +1,103 @@
-# 📚 DocsVibe - AI-Powered Document Chat
+# 🚀 DocsVibe Backend API (Heroku Deployment Branch)
 
-> **Free-tier scalable document chat application for students**  
-> Upload PDFs, DOCX, PPTX and chat with AI about your documents
+> **This branch contains ONLY the backend for Heroku deployment**  
+> For the full project with frontend, see the [main branch](https://github.com/Kushal-Raj-G-S/DocsVibe-AI-Powered-Document-Chat)
 
 [![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-green.svg)](https://fastapi.tiangolo.com)
-[![Next.js](https://img.shields.io/badge/Next.js-15-black.svg)](https://nextjs.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104-green.svg)](https://fastapi.tiangolo.com)
+[![Heroku](https://img.shields.io/badge/Heroku-Deployed-purple.svg)](https://heroku.com)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## ✨ Features
+## ✨ Backend Features
 
 - 🤖 **AI-Powered Chat** - Multiple AI models (Gemini, GPT, DeepSeek)
-- 📄 **Multi-Format Support** - PDF, DOCX, PPTX documents
+- 📄 **Multi-Format Support** - PDF, DOCX, PPTX document processing
 - ☁️ **Cloud Storage** - Cloudflare R2 (10GB free)
 - 💾 **Dual Database** - Neon (3GB) + Supabase (512MB)
-- 🔒 **User Authentication** - Supabase Auth
-- 💰 **100% Free** - Perfect for students (up to 1000 users)
 - ⚡ **Fast & Cached** - 1-hour response caching
 - 📊 **Smart Routing** - Intelligent model selection
-- 🎨 **Modern UI** - Next.js 15 + TypeScript
 
-## 🏗️ Architecture
+## 🏗️ Heroku Deployment
 
-```
-Frontend (Next.js)    →    Backend (FastAPI)    →    Storage & Data
-─────────────────          ──────────────────         ─────────────
-Vercel/DigitalOcean        Heroku Basic $7           Cloudflare R2 (10GB)
-docsvibe.app               api.docsvibe.app          Neon DB (3GB)
-                                                     Supabase (512MB)
-```
+**Live API:** https://api.docsvibe.app  
+**Heroku URL:** https://docsvibe-api-266bfa25d2e8.herokuapp.com
 
-### Deployment Branches
-- **`main`**: Full project (frontend + backend) for development
-- **`heroku-backend`**: Backend only for Heroku deployment
+### Configuration
 
-### Database Separation
-- **Neon PostgreSQL (3GB)**: Conversations & message history (high volume)
-- **Supabase PostgreSQL (512MB)**: Users & file metadata (auth + references)
-- **Cloudflare R2 (10GB)**: Actual document files (binary storage)
+- ✅ **Procfile** - Uvicorn with 2 workers
+- ✅ **Production requirements** - No ChromaDB/heavy ML libs
+- ✅ **.slugignore** - Excludes chroma_db, uploads, logs
+- ✅ **DATABASE_URL fallback** - SQLite if no PostgreSQL
 
-## 🚀 Quick Start
+## 🔧 Environment Variables
 
-### Prerequisites
-- Python 3.11+
-- Node.js 18+
-- Cloudflare account (free)
-- Neon account (free)
-- Supabase account (free)
-
-### Backend Setup
+Set these in Heroku Config Vars:
 
 ```bash
-# Clone repository
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+NEXT_PUBLIC_SUPABASE_SERVICE_ROLE=your-service-role-key
+SUPABASE_DATABASE_URL=postgresql://user:pass@host:5432/db
+
+# Neon Database
+NEON_DATABASE_URL=postgresql://user:pass@neon-host/db
+DATABASE_URL=postgresql://user:pass@neon-host/db
+
+# Cloudflare R2
+R2_ACCOUNT_ID=your-account-id
+R2_ENDPOINT_URL=https://account-id.r2.cloudflarestorage.com
+R2_ACCESS_KEY_ID=your-access-key
+R2_SECRET_ACCESS_KEY=your-secret-key
+R2_BUCKET_NAME=your-bucket
+R2_PUBLIC_URL=https://your-bucket.r2.dev
+
+# AI APIs  
+A4F_API_KEY=your-a4f-key
+A4F_BASE_URL=https://api.a4f.co/v1
+```
+
+## 📦 Deploy to Heroku
+
+```bash
+# Login to Heroku
+heroku login
+
+# Add environment variables
+heroku config:set DATABASE_URL="your-db-url" --app docsvibe-api
+heroku config:set SUPABASE_URL="your-supabase-url" --app docsvibe-api
+# ... add all other variables
+
+# Deploy this branch
+git push heroku heroku-backend:main
+
+# Check logs
+heroku logs --tail --app docsvibe-api
+```
+
+## 📁 Project Structure
+
+```
+backend/
+├── main.py                 # FastAPI application
+├── Procfile               # Heroku startup command
+├── runtime.txt            # Python 3.11.9
+├── requirements.txt       # Production dependencies
+├── requirements-dev.txt   # Dev dependencies (with ChromaDB)
+├── .slugignore           # Exclude from Heroku slug
+├── routes/               # API endpoints
+│   ├── chat_routes.py    # Chat & PDF upload
+│   ├── conversation_routes.py
+│   └── user_routes.py
+├── database/             # Database configs
+│   ├── db_config.py      # SQLAlchemy setup
+│   └── dual_db_config.py # Neon + Supabase
+├── models/               # Pydantic models
+└── utils/                # Helper functions
+    ├── a4f_client.py     # AI API client
+    ├── pdf_extractor.py  # Document processing
+    └── r2_storage.py     # Cloudflare R2
+```
 git clone https://github.com/Kushal-Raj-G-S/DocsVibe-AI-Powered-Document-Chat.git
 cd DocsVibe-AI-Powered-Document-Chat/backend
 
@@ -338,5 +384,21 @@ MIT License - see [LICENSE](LICENSE) file for details
 Give a ⭐️ if this project helped you!
 
 ---
+## ☕ Support the Developer
+
+If you love DocsVibe and find it useful in your academic journey, consider supporting its development!
+
+[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://buymeacoffee.com/kushal.raj.gs)
+
+Your support helps me:
+- 🚀 Continue developing new features
+- 🐛 Fix bugs and improve performance
+- 📚 Keep it 100% free for students forever
+- 🤖 Add more AI models and capabilities
+- 🌍 Scale infrastructure for more users
+
+Every coffee makes a difference! ☕💻
+
+
 
 **Made with ❤️ for students by students**
