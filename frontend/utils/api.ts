@@ -10,8 +10,6 @@ import { BUILD_TIMESTAMP } from '@/lib/build-info'
 // Using NEXT_PUBLIC_API_URL like Pixova (working project)
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.docsvibe.app'
 
-console.log('🕐 Build timestamp:', BUILD_TIMESTAMP)
-console.log('🔗 API_BASE_URL:', API_BASE_URL)
 // SECURITY: Block incorrect www subdomain
 if (API_BASE_URL.includes('www.api')) {
   throw new Error(
@@ -20,10 +18,9 @@ if (API_BASE_URL.includes('www.api')) {
   )
 }
 
-// DEBUG: Log the API URL in production to verify it's correct
-if (typeof window !== 'undefined') {
-  console.log('🔗 API_BASE_URL:', API_BASE_URL)
-  console.log('🌍 Current origin:', window.location.origin)
+// Log only in development
+if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
+  console.log('API_BASE_URL:', API_BASE_URL)
 }
 
 /**
