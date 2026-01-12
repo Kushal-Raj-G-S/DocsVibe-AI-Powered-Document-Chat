@@ -7,32 +7,11 @@ import { ChatHistoryResponse, SendMessageRequest, SendMessageResponse } from '@/
 import { BUILD_TIMESTAMP } from '@/lib/build-info'
 
 // Centralized API Base URL from environment variable
-// NUCLEAR OPTION: Read at runtime from window to bypass build-time caching
-let API_BASE_URL: string
+// Using NEXT_PUBLIC_API_URL like Pixova (working project)
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.docsvibe.app'
 
 console.log('🕐 Build timestamp:', BUILD_TIMESTAMP)
-
-if (typeof window !== 'undefined') {
-  // Client-side: Force runtime environment variable reading
-  API_BASE_URL = (window as any).__NEXT_DATA__?.props?.pageProps?.env?.NEXT_PUBLIC_API_BASE_URL 
-    || process.env.NEXT_PUBLIC_API_BASE_URL 
-    || 'https://api.docsvibe.app'  // Hardcoded fallback
-} else {
-  // Server-side
-  API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.docsvibe.app'
-}
-
-// Validate that API_BASE_URL is set
-if (!API_BASE_URL || API_BASE_URL === 'your_backend_api_url_here') {
-  API_BASE_URL = 'https://api.docsvibe.app'  // Force correct URL
-}
-
-// CRITICAL FIX: Force HTTPS if the protocol is missing or wrong
-if (API_BASE_URL.startsWith('http://')) {
-  console.warn('⚠️ Converting insecure HTTP to HTTPS:', API_BASE_URL)
-  API_BASE_URL = API_BASE_URL.replace('http://', 'https://')
-}
-
+console.log('🔗 API_BASE_URL:', API_BASE_URL)
 // SECURITY: Block incorrect www subdomain
 if (API_BASE_URL.includes('www.api')) {
   throw new Error(
