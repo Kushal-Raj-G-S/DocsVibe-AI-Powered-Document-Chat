@@ -22,6 +22,7 @@ import { ChatArea } from '@/components/chat/ChatArea'
 import { ChatInput } from '@/components/chat/ChatInput'
 import { ModelSelector } from '@/components/chat/ModelSelector'
 import { useAuth } from '@/hooks/useAuth'
+import { useUserProfile } from '@/hooks/useUserProfile'
 import { useChatHistory } from '@/hooks/useChatHistory'
 import { Message, PDFFile } from '@/types/chat'
 import { sendMessage, uploadPDF, updateConversationTitle, getConversationPDFs, deletePDF, analyzeFileUpload } from '@/utils/api'
@@ -37,6 +38,7 @@ import type { Suggestion } from '@/utils/fileRouter/suggestionFormatter'
 export default function ChatPage() {
   const router = useRouter()
   const { user, loading: authLoading, isAuthenticated, showRestrictionModal, restrictedEmail, closeRestrictionModal } = useAuth()
+  const { profile: userProfile } = useUserProfile(user?.email)
   const {
     sessions,
     groupedSessions,
@@ -647,11 +649,11 @@ export default function ChatPage() {
         onNewChat={handleNewChat}
         onDeleteSession={handleDeleteSession}
         onRenameSession={handleRenameSession}
-        user={user ? {
-          name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'User',
+        user={userProfile || (user ? {
+          name: user.email?.split('@')[0] || 'User',
           email: user.email || '',
-          avatar: user.user_metadata?.avatar_url,
-        } : null}
+          avatar: undefined,
+        } : null)}
         onSignOut={handleSignOut}
       />
 
