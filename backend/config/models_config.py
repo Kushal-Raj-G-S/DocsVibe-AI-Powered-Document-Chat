@@ -14,7 +14,7 @@ UPDATE THIS FILE when:
 
 SYNC WITH: frontend/config/models.ts
 
-Last Updated: January 9, 2026 - Model Identity Test Verified
+Last Updated: January 2025 - 18 Curated Models Across 6 Categories
 ============================================
 """
 
@@ -45,99 +45,106 @@ class ModelTier(TypedDict):
 MODEL_CATEGORIES: Dict[str, ModelTier] = {
     # PDF Analysis - Large multimodal for documents
     'pdf_analysis': {
-        'primary': 'provider-8/qwen3-next-80b-a3b-instruct',
-        'secondary': 'provider-2/deepseek-v3.1',
-        'fallback': 'provider-8/gemini-2.0-flash',
+        'primary': 'provider-8/qwen2.5-vl-32b-instruct',
+        'secondary': 'provider-8/qwen3-next-80b-a3b-instruct',
+        'fallback': 'provider-1/qwen3-next-80b-a3b-instruct',
         'supports_native_pdf': True,
         'context_window': 128000,
-        'description': 'PDF Analysis - Large multimodal models',
+        'description': 'PDF Analysis - Vision models for document understanding',
         'additional_models': []
     },
     
     # General Chat - Friendly conversational AI
     'general_chat': {
-        'primary': 'provider-8/gpt-oss-120b',
-        'secondary': 'provider-8/kimi-k2',
-        'fallback': 'provider-8/llama-4-maverick',
+        'primary': 'provider-8/kimi-k2',
+        'secondary': 'provider-8/gemini-2.0-flash',
+        'fallback': 'provider-8/mistral-small-3.2-24b-instruct',
         'supports_native_pdf': False,
         'context_window': 128000,
-        'description': 'General Chat - Friendly engaging conversations',
+        'description': 'General Chat - Balanced conversational models',
         'additional_models': []
     },
     
     # Reasoning - Purpose-built with thinking
     'reasoning': {
-        'primary': 'provider-2/deepseek-r1',
-        'secondary': 'provider-8/qwen3-next-80b-a3b-instruct',
-        'fallback': 'provider-8/kimi-k2-thinking',
+        'primary': 'provider-2/deepseek-r1-0528',
+        'secondary': 'provider-8/deepseek-r1-distill-llama-70b',
+        'fallback': 'provider-8/qwen3-32b',
         'supports_native_pdf': False,
         'context_window': 128000,
-        'description': 'Reasoning - Explicit thinking processes',
+        'description': 'Reasoning - Explicit chain-of-thought models',
         'additional_models': []
     },
     
     # Coding - Strong programming support
     'coding': {
-        'primary': 'provider-2/deepseek-v3.1',
-        'secondary': 'provider-8/qwen3-next-80b-a3b-instruct',
-        'fallback': 'provider-8/gpt-oss-120b',
+        'primary': 'provider-8/gpt-oss-120b',
+        'secondary': 'provider-8/gpt-oss-20b',
+        'fallback': 'provider-8/hermes-4-14b',
         'supports_native_pdf': False,
         'context_window': 128000,
-        'description': 'Coding - Multiple languages support',
-        'additional_models': []
-    },
-    
-    # Fast Response - Groq LPU optimized
-    'fast_response': {
-        'primary': 'provider-6/compound-mini',
-        'secondary': 'provider-6/compound',
-        'fallback': 'provider-8/gemini-2.0-flash',
-        'supports_native_pdf': False,
-        'context_window': 32000,
-        'description': 'Fast Response - Groq LPU hardware',
+        'description': 'Coding - Open-source programming models',
         'additional_models': []
     },
     
     # Multimodal - Text and image inputs
     'multimodal': {
-        'primary': 'provider-8/gemini-2.0-flash',
-        'secondary': 'provider-3/gemma-3-27b-it',
-        'fallback': 'provider-8/qwen3-next-80b-a3b-instruct',
+        'primary': 'provider-3/gemma-3-27b-it',
+        'secondary': 'provider-3/gemma-3-12b-it',
+        'fallback': 'provider-3/gemma-3-4b-it',
         'supports_native_pdf': False,
-        'context_window': 128000,
-        'description': 'Multimodal - Text and images',
+        'context_window': 8192,
+        'description': 'Multimodal - Google DeepMind vision models',
+        'additional_models': []
+    },
+    
+    # Fast Response - Groq LPU optimized
+    'fast_response': {
+        'primary': 'provider-6/mimo-v2-flash',
+        'secondary': 'provider-8/deepseek-v3',
+        'fallback': 'provider-8/llama-4-scout',
+        'supports_native_pdf': False,
+        'context_window': 32000,
+        'description': 'Fast Response - Speed-optimized models',
         'additional_models': []
     }
 }
 
 
 # ============================================
-# ALL AVAILABLE MODELS - Curated & Deduplicated (12 unique models)
-# Best models for each category, no duplicates across categories
+# ALL AVAILABLE MODELS - 18 Curated Models
+# Organized by category with 3 models each
 # ============================================
 ALL_MODELS = [
-    # PDF Analysis & Multimodal - Best for documents
-    'provider-8/qwen3-next-80b-a3b-instruct',  # Primary PDF + Reasoning
-    'provider-8/gemini-2.0-flash',             # Fast multimodal
+    # PDF Analysis (3)
+    'provider-8/qwen2.5-vl-32b-instruct',
+    'provider-8/qwen3-next-80b-a3b-instruct',
+    'provider-1/qwen3-next-80b-a3b-instruct',
     
-    # Reasoning - Purpose-built thinking models
-    'provider-2/deepseek-r1',                  # Best reasoning with CoT
-    'provider-8/kimi-k2-thinking',             # Alternative reasoning
+    # General Chat (3)
+    'provider-8/kimi-k2',
+    'provider-8/gemini-2.0-flash',
+    'provider-8/mistral-small-3.2-24b-instruct',
     
-    # Coding - Top programming models
-    'provider-2/deepseek-v3.1',                # Best for code
+    # Reasoning (3)
+    'provider-2/deepseek-r1-0528',
+    'provider-8/deepseek-r1-distill-llama-70b',
+    'provider-8/qwen3-32b',
     
-    # General Chat - Friendly conversational
-    'provider-8/gpt-oss-120b',                 # Large general model
-    'provider-8/kimi-k2',                      # Balanced chat
-    'provider-8/llama-4-maverick',             # Open source alternative
+    # Coding (3)
+    'provider-8/gpt-oss-120b',
+    'provider-8/gpt-oss-20b',
+    'provider-8/hermes-4-14b',
     
-    # Fast Response - Groq optimized
-    'provider-6/compound-mini',                # Ultra-fast small
-    'provider-6/compound',                     # Fast large
+    # Multimodal (3)
+    'provider-3/gemma-3-27b-it',
+    'provider-3/gemma-3-12b-it',
+    'provider-3/gemma-3-4b-it',
     
-    # Multimodal Vision
-    'provider-3/gemma-3-27b-it',              # Good for images
+    # Fast Response (3)
+    'provider-6/mimo-v2-flash',
+    'provider-8/deepseek-v3',
+    'provider-8/llama-4-scout',
 ]
 
 
