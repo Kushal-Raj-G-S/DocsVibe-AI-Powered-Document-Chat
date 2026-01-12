@@ -33,16 +33,25 @@ export function useUserProfile(email: string | undefined) {
 
     const fetchProfile = async () => {
       try {
+        console.log('🔍 Fetching profile for:', email)
         const response = await fetch(`${API_BASE_URL}/api/users/profile/${email}`)
+        console.log('📡 Profile response status:', response.status)
+        
         if (response.ok) {
           const data = await response.json()
+          console.log('📦 Profile data received:', data)
+          
+          // Backend returns {success: true, user: {...}}
+          const userData = data.user || data
+          
           setProfile({
-            name: data.display_name || email.split('@')[0],
-            email: data.email,
-            avatar: data.avatar_url,
-            display_name: data.display_name
+            name: userData.display_name || userData.email?.split('@')[0] || email.split('@')[0],
+            email: userData.email || email,
+            avatar: userData.avatar_url,
+            display_name: userData.display_name
           })
         } else {
+          console.warn('⚠️ Profile fetch failed:', response.status)
           // Fallback to email if backend fails
           setProfile({
             name: email.split('@')[0],
@@ -50,7 +59,7 @@ export function useUserProfile(email: string | undefined) {
           })
         }
       } catch (error) {
-        console.error('Failed to fetch user profile:', error)
+        console.error('❌ Failed to fetch user profile:', error)
         // Fallback
         setProfile({
           name: email.split('@')[0],
