@@ -1,0 +1,11 @@
+chroma_db/
+database/uploads/
+*.db
+*.sqlite3
+*.log
+__pycache__/
+*.pyc
+.env
+test_*.py
+verify_*.py
+.git/
